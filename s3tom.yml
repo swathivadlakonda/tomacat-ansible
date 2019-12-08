@@ -1,0 +1,22 @@
+---
+
+- hosts: 35.184.87.35 
+  become: yes
+  tasks: 
+  - name: install tomcat
+    apt:
+     name: tomcat-8
+     state: present
+     update_cache: yes
+  - name: deplaoying war file
+    get_url:
+      url: https://tasks3-bucket.s3.amazonaws.com/webapp/target/webapp.war
+      dest: /usr/local/tomacat-8/webapps/webapp.war
+    notify: restart tomcat-8
+  handlers:
+  - name: restart tomcat-8
+    services:
+     name: tomcat-8
+     state: restarted
+     enabled: yes
+

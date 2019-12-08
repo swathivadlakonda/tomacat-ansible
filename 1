@@ -1,0 +1,21 @@
+---
+- name: install tomcat server
+  hosts: 35.192.137.240  
+  become: true
+  tasks:
+  - name: install java
+    yum:
+      name: java-1.8.0-openjdk
+      state: latest
+  - name: download tomcat server
+    get_url:
+      url: http://mirror.cc.columbia.edu/pub/software/apache/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.tar.gz
+      dest: /home/swathivadlakonda
+  - name: extract tomcat
+    unarchive:
+      src: /home/swathivadlakonda/apache-tomcat-8.5.47.tar.gz
+      dest: /home/swathivadlakonda
+      remote_src: yes
+  - name: start tomcat
+    shell: /home/swathivadlakonda/apache-tomcat-8.5.47/bin/startup.sh
+
